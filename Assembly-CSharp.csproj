@@ -46,9 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Code\Scripts\Cluster\Balloon.cs" />
-     <Compile Include="Assets\Code\Scripts\Cluster\Cluster.cs" />
-     <Compile Include="Assets\Code\Scripts\player\Player.cs" />
+     <Compile Include="Assets\Code\Scripts\Player\Player.cs" />
      <Compile Include="Assets\Code\Util\ClusterController.cs" />
      <Compile Include="Assets\Code\Util\GameController.cs" />
      <Compile Include="Assets\Code\Util\Wrap.cs" />
