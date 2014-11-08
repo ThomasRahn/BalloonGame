@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Wrap : MonoBehaviour {
-	public float limit = 40.0f;
+	public float limit = 20.0f;
 	// Use this for initialization
 	void Start () {
 	
