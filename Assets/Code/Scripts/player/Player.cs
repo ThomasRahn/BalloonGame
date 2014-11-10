@@ -50,13 +50,14 @@ public class Player : MonoBehaviour {
 				GameObject mis1 = Instantiate(missle,left,transform.rotation) as GameObject;
 				mis1.transform.position = left;
 				Vector3 velo = locked.transform.position - mis1.transform.position;
-				mis1.rigidbody.velocity = velo;
+				mis1.rigidbody.velocity = velo * 10.0f;
 
 				//Right
 				GameObject mis2 = Instantiate(missle,right,transform.rotation) as GameObject;
 				mis2.transform.position = right;
 				velo = (locked.transform.position - mis2.transform.position);
-				mis2.rigidbody.velocity = velo;
+				mis2.rigidbody.velocity = velo * 10.0f;
+
 			}
 		}
 	}

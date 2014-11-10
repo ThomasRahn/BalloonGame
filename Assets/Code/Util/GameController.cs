@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour {
 	void Start () {
 		ClusterController.SpawnBalloons ();
 		score = 0;
+		Screen.lockCursor = true;
 
 	}
 	

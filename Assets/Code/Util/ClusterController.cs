@@ -18,10 +18,18 @@ public class ClusterController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log ("total: " + totalNumberOfBalloons + " currnet: " + numberOfBalloons);
 
 		float balLeft = numberOfBalloons / (totalNumberOfBalloons * 1.0f);
 		if (balLeft < 0.7f && !thirty) {
+			thirty = true;
+			spawnEnemy();
+		}
+		if (balLeft < 0.4f && !sixty) {
+			sixty = true;
+			spawnEnemy();
+		}
+		if (balLeft < 0.1f && !ninety) {
+			ninety = true;
 			spawnEnemy();
 		}
 	}
@@ -43,7 +51,5 @@ public class ClusterController : MonoBehaviour {
 	private static void spawnEnemy(){
 		Object obj = Resources.Load ("Prefabs/Enemy");
 		GameObject enemy = Instantiate(obj, new Vector3(-5,5,-5), Quaternion.identity) as GameObject;
-		thirty = true;
-		
 	}
 }
