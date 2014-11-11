@@ -3,6 +3,9 @@ using System.Collections;
 
 public class Bullet : MonoBehaviour {
 
+	void Start(){
+		this.rigidbody.freezeRotation = true;
+	}
 	void OnTriggerEnter(Collider col){
 		GameObject obj = col.gameObject;
 
@@ -10,7 +13,7 @@ public class Bullet : MonoBehaviour {
 			GameController.UpdateScore(1);
 			ClusterController.BalloonPoped();
 			Destroy(obj);
-			Destroy(this);
+			Destroy(this.gameObject);
 		}
 	}
 }

@@ -35,10 +35,15 @@ public class ClusterController : MonoBehaviour {
 	}
 
 	public static void SpawnBalloons (){
-		for(int i = 0; i < Random.Range(10,40);i++){
-			Vector3 position = new Vector3(Random.Range(2,4), Random.Range(2,4), Random.Range(2,4));
-			Object enemy = Resources.Load ("Prefabs/Balloon");
-			GameObject bal = Instantiate(enemy, position, Quaternion.identity) as GameObject;
+		int reverse = 1;
+		for(int i = 0; i < Random.Range(50,100);i++){
+			if(i % 2 == 0){
+				reverse = reverse *-1;
+			}
+			Vector3 position = new Vector3(Random.Range(3,20) * reverse, Random.Range(3,20) * reverse, Random.Range(3,20) * reverse);
+			Object enemy = Resources.Load ("Prefabs/BalloonModel");
+			GameObject bal = Instantiate(enemy) as GameObject;
+			bal.transform.position = position;
 			numberOfBalloons++;
 			totalNumberOfBalloons++;
 		}
@@ -49,7 +54,7 @@ public class ClusterController : MonoBehaviour {
 	}
 
 	private static void spawnEnemy(){
-		Object obj = Resources.Load ("Prefabs/Enemy");
+		Object obj = Resources.Load ("Prefabs/EnemyModel");
 		GameObject enemy = Instantiate(obj, new Vector3(-5,5,-5), Quaternion.identity) as GameObject;
 	}
 }

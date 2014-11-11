@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour {
 	void Start () {
 		ClusterController.SpawnBalloons ();
 		score = 0;
+		lives = 3;
 		Screen.lockCursor = true;
 
 	}
@@ -22,4 +23,17 @@ public class GameController : MonoBehaviour {
 	public static void UpdateScore(int i){
 		score += i;
 	}
+
+	public static void Die(){
+		lives--;
+		GameObject.FindGameObjectWithTag ("status").guiText.text = "You have died";
+		if(lives == 0){
+			GameOver();
+		}
+	}
+
+	private static void GameOver(){
+		Application.LoadLevel("main");
+	}
+
 }

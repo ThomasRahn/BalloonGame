@@ -15,11 +15,4 @@ public class Missle : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	}
-
-	void OnTriggerEnter(Collider col){
-		Debug.Log ("hit");
-		Destroy (col.gameObject);
-		GameController.UpdateScore (10);
-		Destroy (this);
-	}
 }

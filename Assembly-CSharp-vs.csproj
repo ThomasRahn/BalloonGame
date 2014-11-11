@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Code\Scripts\Balloon\Balloon.cs" />
      <Compile Include="Assets\Code\Scripts\Enemy\Enemy.cs" />
      <Compile Include="Assets\Code\Scripts\Player\Bullet.cs" />
      <Compile Include="Assets\Code\Scripts\Player\Missle.cs" />

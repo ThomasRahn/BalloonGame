@@ -17,6 +17,8 @@ public class Player : MonoBehaviour {
 	public float lockonTime = 2.0f;
 	public float maxLockDistance = 5000.0f;
 
+	public float invinsibility = 2.0f;
+
 	public GameObject locked;
 	public GameObject lockOnObject;
 	public GameObject bullet;
@@ -50,27 +52,32 @@ public class Player : MonoBehaviour {
 				GameObject mis1 = Instantiate(missle,left,transform.rotation) as GameObject;
 				mis1.transform.position = left;
 				Vector3 velo = locked.transform.position - mis1.transform.position;
-				mis1.rigidbody.velocity = velo * 10.0f;
+				velo.y +=5.0f;
+				mis1.rigidbody.velocity = velo * 5.0f;
 
 				//Right
 				GameObject mis2 = Instantiate(missle,right,transform.rotation) as GameObject;
 				mis2.transform.position = right;
 				velo = (locked.transform.position - mis2.transform.position);
-				mis2.rigidbody.velocity = velo * 10.0f;
+				velo.y +=5.0f;
+				mis2.rigidbody.velocity = velo * 5.0f;
 
 			}
+		}
+		if(invinsibility > 0.0f){
+			invinsibility -= Time.deltaTime;
 		}
 	}
 
 	IEnumerator HideText(){
-		yield return new WaitForSeconds (4);
+		yield return new WaitForSeconds (2);
 		text.guiText.enabled = false;
 		locked = null;
 	}
 	void LockOn(){
 		RaycastHit hit;
 		if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit)){
-			if(hit.distance < maxLockDistance){
+			if(hit.distance < maxLockDistance || hit.transform.gameObject.tag == "enemy"){
 				GameObject obj = hit.collider.gameObject;
 				if(lockOnObject == null){
 					lockOnObject = obj;
@@ -121,14 +128,41 @@ public class Player : MonoBehaviour {
 	}
 	void Shooting(){
 		if(Input.GetButtonDown("Fire1")){
-			GameObject shoot = Instantiate(bullet,Camera.main.transform.position,Quaternion.identity) as GameObject;
-			shoot.rigidbody.velocity = transform.rigidbody.velocity + (transform.forward *5.0f);
-			//shoot.rigidbody.AddForce (transform.forward * 5.0f);
+		
+			GameObject shoot = Instantiate(bullet) as GameObject;
+			shoot.transform.position =Camera.main.transform.position;
+			shoot.rigidbody.velocity = transform.rigidbody.velocity + (transform.forward * 20.0f);
 			shoot.transform.rotation = transform.rotation;
-			shoot.transform.Rotate(new Vector3(90,0,0));
-			Destroy(shoot,4.0f);
+			shoot.transform.Rotate(new Vector3(0,90,0));
+			Destroy(shoot,2.5f);
 		}
 	}
+	public void Die(){
+		GameController.Die ();
+		Destroy (this.GetComponent<Wrap> ());
+		this.rigidbody.useGravity = true;
+		StartCoroutine (Spawn ());
+	}
+	IEnumerator Spawn(){
+		yield return new WaitForSeconds (5);
+		this.transform.position = new Vector3 (0, 0, 0);
+		this.rigidbody.useGravity = false;
+		this.gameObject.AddComponent<Wrap> ();
+	}
 	
-	
+	void OnTriggerEnter(Collider col){
+		GameObject obj = col.gameObject;
+		if(invinsibility <= 0.0f){
+			if(obj.tag == "balloon" ){
+				Destroy (obj);
+				GameController.UpdateScore(1);
+				Die ();
+			}
+			if(obj.tag == "enemy"){
+				Destroy (obj);
+				GameController.UpdateScore(10);
+				Die ();
+			}
+		}
+	}
 }
