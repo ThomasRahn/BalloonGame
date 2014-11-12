@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
 	
@@ -24,6 +25,9 @@ public class Player : MonoBehaviour {
 	public GameObject bullet;
 	public GameObject missle;
 	private GameObject text;
+
+	private float scatterShotTime = 2.0f;
+	private bool hasScatterShot = false;
 
 	void Start () {
 		originalRotation = this.transform.rotation;
@@ -53,40 +57,71 @@ public class Player : MonoBehaviour {
 				mis1.transform.position = left;
 				Vector3 velo = locked.transform.position - mis1.transform.position;
 				velo.y +=5.0f;
-				mis1.rigidbody.velocity = velo * 5.0f;
+				mis1.rigidbody.velocity = velo * 3.0f;
 
 				//Right
 				GameObject mis2 = Instantiate(missle,right,transform.rotation) as GameObject;
 				mis2.transform.position = right;
 				velo = (locked.transform.position - mis2.transform.position);
 				velo.y +=5.0f;
-				mis2.rigidbody.velocity = velo * 5.0f;
+				mis2.rigidbody.velocity = velo * 3.0f;
 
 			}
 		}
 		if(invinsibility > 0.0f){
 			invinsibility -= Time.deltaTime;
 		}
+
+		ScatterShotCheck();
 	}
+
+	void ScatterShotCheck(){
+		if(Input.GetKey(KeyCode.X) && !hasScatterShot){
+			scatterShotTime -= Time.deltaTime;
+
+			if(scatterShotTime <= 0.0f){
+				ScatterShot();
+			}
+		}else{
+			if(scatterShotTime < 2.0f){
+				scatterShotTime = 2.0f;
+			}
+		}
+	}
+
+	void ScatterShot(){
+		hasScatterShot = true;
+		List<GameObject> balloons = ClusterController.GetAllVisibleBalloons ();
+		Debug.Log ("SCATTER");
+
+		foreach(GameObject balloon in balloons){
+			//Shoot a bullet at all balloons
+		}
+	}
+
 
 	IEnumerator HideText(){
 		yield return new WaitForSeconds (2);
 		text.guiText.enabled = false;
 		locked = null;
 	}
+
+
 	void LockOn(){
 		RaycastHit hit;
 		if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit)){
-			if(hit.distance < maxLockDistance || hit.transform.gameObject.tag == "enemy"){
+			if(hit.distance < maxLockDistance && hit.transform.gameObject.tag == "enemy"){
 				GameObject obj = hit.collider.gameObject;
 				if(lockOnObject == null){
 					lockOnObject = obj;
+					return;
 				}
 				if( lockOnObject == obj){
 					lockonTime -= Time.deltaTime;
 					if(lockonTime <= 0.0f){
 						locked = obj;
 						lockonTime = 2.0f;
+						return;
 					}
 				}else{
 					lockonTime = 2.0f;
@@ -96,12 +131,12 @@ public class Player : MonoBehaviour {
 			}
 		}
 	}
+
+	//This is for custom movement
 	void Movement(){
 		rotationX += Input.GetAxis("Mouse X") * sensitivityX;
 		rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-		
-		
-		//	rotationX = Mathf.Clamp(rotationX,minX,maxX);
+
 		rotationY = Mathf.Clamp(rotationY,minY,maxY);
 		
 		Quaternion xQuaternion = Quaternion.AngleAxis (rotationX, Vector3.up);
@@ -121,14 +156,11 @@ public class Player : MonoBehaviour {
 		if(Input.GetKey(KeyCode.D)){
 			transform.rigidbody.AddForce(transform.right * speed * Time.deltaTime);
 		}
-		
-		
-
-
 	}
+
+	//Shoot if button press
 	void Shooting(){
 		if(Input.GetButtonDown("Fire1")){
-		
 			GameObject shoot = Instantiate(bullet) as GameObject;
 			shoot.transform.position =Camera.main.transform.position;
 			shoot.rigidbody.velocity = transform.rigidbody.velocity + (transform.forward * 20.0f);
@@ -137,31 +169,35 @@ public class Player : MonoBehaviour {
 			Destroy(shoot,2.5f);
 		}
 	}
+
 	public void Die(){
 		GameController.Die ();
 		Destroy (this.GetComponent<Wrap> ());
 		this.rigidbody.useGravity = true;
 		StartCoroutine (Spawn ());
 	}
+
+	//spawn the player back at 0,0,0
 	IEnumerator Spawn(){
 		yield return new WaitForSeconds (5);
 		this.transform.position = new Vector3 (0, 0, 0);
 		this.rigidbody.useGravity = false;
 		this.gameObject.AddComponent<Wrap> ();
 	}
-	
+
+	//If the player collides with balloon or enemy, die and pop the object.
 	void OnTriggerEnter(Collider col){
 		GameObject obj = col.gameObject;
 		if(invinsibility <= 0.0f){
 			if(obj.tag == "balloon" ){
 				Destroy (obj);
 				GameController.UpdateScore(1);
-				Die ();
+				//Die ();
 			}
 			if(obj.tag == "enemy"){
 				Destroy (obj);
 				GameController.UpdateScore(10);
-				Die ();
+				//Die ();
 			}
 		}
 	}

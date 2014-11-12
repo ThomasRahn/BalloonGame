@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour {
 
 		if(obj.tag == "balloon"){
 			GameController.UpdateScore(1);
-			ClusterController.BalloonPoped();
+			ClusterController.BalloonPoped(obj);
 			Destroy(obj);
 			Destroy(this.gameObject);
 		}
