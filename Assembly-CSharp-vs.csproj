@@ -46,11 +46,13 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Code\Menu\Menu.cs" />
      <Compile Include="Assets\Code\Scripts\Balloon\Balloon.cs" />
      <Compile Include="Assets\Code\Scripts\Enemy\Enemy.cs" />
      <Compile Include="Assets\Code\Scripts\Player\Bullet.cs" />
      <Compile Include="Assets\Code\Scripts\Player\Missle.cs" />
      <Compile Include="Assets\Code\Scripts\Player\Player.cs" />
+     <Compile Include="Assets\Code\Scripts\Player\Scatter.cs" />
      <Compile Include="Assets\Code\Util\ClusterController.cs" />
      <Compile Include="Assets\Code\Util\GameController.cs" />
      <Compile Include="Assets\Code\Util\Wrap.cs" />

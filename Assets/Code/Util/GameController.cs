@@ -36,4 +36,7 @@ public class GameController : MonoBehaviour {
 		Application.LoadLevel("main");
 	}
 
+	public static void WinGame(){
+
+	}
 }

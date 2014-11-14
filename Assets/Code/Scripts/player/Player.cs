@@ -80,7 +80,7 @@ public class Player : MonoBehaviour {
 			scatterShotTime -= Time.deltaTime;
 
 			if(scatterShotTime <= 0.0f){
-				ScatterShot();
+		//		ScatterShot();
 			}
 		}else{
 			if(scatterShotTime < 2.0f){
@@ -92,10 +92,14 @@ public class Player : MonoBehaviour {
 	void ScatterShot(){
 		hasScatterShot = true;
 		List<GameObject> balloons = ClusterController.GetAllVisibleBalloons ();
-		Debug.Log ("SCATTER");
 
 		foreach(GameObject balloon in balloons){
-			//Shoot a bullet at all balloons
+			GameObject shoot = Instantiate(bullet) as GameObject;
+			shoot.transform.position =Camera.main.transform.position;
+			shoot.AddComponent<Scatter>();
+			shoot.GetComponent<Scatter>().SetTarget(balloon);
+			shoot.transform.rotation = transform.rotation;
+			shoot.transform.Rotate(new Vector3(0,90,0));
 		}
 	}
 

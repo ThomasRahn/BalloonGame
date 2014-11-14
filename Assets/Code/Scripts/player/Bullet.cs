@@ -10,9 +10,7 @@ public class Bullet : MonoBehaviour {
 		GameObject obj = col.gameObject;
 
 		if(obj.tag == "balloon"){
-			GameController.UpdateScore(1);
-			ClusterController.BalloonPoped(obj);
-			Destroy(obj);
+			obj.GetComponent<Balloon>().Hit();
 			Destroy(this.gameObject);
 		}
 	}

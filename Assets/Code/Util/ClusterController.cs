@@ -45,7 +45,8 @@ public class ClusterController : MonoBehaviour {
 
 	public static void SpawnBalloons (){
 		int reverse = 1;
-		for(int i = 0; i < Random.Range(50,100);i++){
+		int playerPref = PlayerPrefs.GetInt ("Balloons");
+		for(int i = 0; i < playerPref; i++){
 			if(i % 2 == 0){
 				reverse = reverse *-1;
 			}
