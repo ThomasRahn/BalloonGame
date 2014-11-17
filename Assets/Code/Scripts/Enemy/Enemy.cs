@@ -38,6 +38,7 @@ public class Enemy : MonoBehaviour {
 			life--;
 			if(life == 0){
 				GameController.UpdateScore(killScore);
+				ClusterController.KillEnemy();
 				Destroy (this.gameObject);
 			}
 		}
@@ -45,6 +46,7 @@ public class Enemy : MonoBehaviour {
 			Debug.Log("hit");
 			Destroy (col.gameObject);
 			GameController.UpdateScore (killScore);
+			ClusterController.KillEnemy();
 			Destroy (this.gameObject);
 		}
 	}

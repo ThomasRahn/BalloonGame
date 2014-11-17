@@ -7,14 +7,17 @@ public class ClusterController : MonoBehaviour {
 	public static List<GameObject> balloons = new List<GameObject>();
 	public static int totalNumberOfBalloons;
 	public static int numberOfBalloons;
-
+	public static int numberOfEnemies;
 	private static bool thirty = false;
 	private static bool sixty = false;
 	private static bool ninety = false;
 	private static bool speedBoost = false;
+
+	public string status;
 	// Use this for initialization
 	void Start () {
 		numberOfBalloons = 0;
+		numberOfEnemies = 3;
 	}
 	
 	// Update is called once per frame
@@ -37,10 +40,16 @@ public class ClusterController : MonoBehaviour {
 			speedBoost = true;
 			increaseSpeed();
 		}
+		status = numberOfBalloons + " " + !GameController.gameOver + numberOfEnemies;
+		if(numberOfBalloons == 0 && !GameController.gameOver && numberOfEnemies == 0){
+			GameController.WinGame();
+		}
 	}
 
 	private void increaseSpeed(){
-		//TODO: increase speed of all balloons
+		foreach(GameObject balloon in balloons){
+			balloon.rigidbody.AddForce(new Vector3(0,5,0));
+		}
 	}
 
 	public static void SpawnBalloons (){
@@ -79,5 +88,8 @@ public class ClusterController : MonoBehaviour {
 			}
 		}
 		return visibleBalloons;
+	}
+	public static void KillEnemy(){
+		numberOfEnemies--;
 	}
 }

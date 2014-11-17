@@ -38,41 +38,43 @@ public class Player : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		Movement ();
-		Shooting ();
+		if(!GameController.gameOver){
+			Movement ();
+			Shooting ();
 
-		LockOn ();
-		if(locked != null){
-			GameObject text = GameObject.FindGameObjectWithTag("locked");
-			if(!text.guiText.enabled){
-				text.guiText.enabled = true;
-				StartCoroutine(HideText());
+			LockOn ();
+			if(locked != null){
+				GameObject text = GameObject.FindGameObjectWithTag("locked");
+				if(!text.guiText.enabled){
+					text.guiText.enabled = true;
+					StartCoroutine(HideText());
+				}
+				if(Input.GetKeyDown(KeyCode.T)){
+					Vector3 left = GameObject.FindGameObjectWithTag("leftMissle").transform.position;
+					Vector3 right = GameObject.FindGameObjectWithTag("rightMissle").transform.position;
+
+					//Left
+					GameObject mis1 = Instantiate(missle,left,transform.rotation) as GameObject;
+					mis1.transform.position = left;
+					Vector3 velo = locked.transform.position - mis1.transform.position;
+					velo.y +=5.0f;
+					mis1.rigidbody.velocity = velo * 3.0f;
+
+					//Right
+					GameObject mis2 = Instantiate(missle,right,transform.rotation) as GameObject;
+					mis2.transform.position = right;
+					velo = (locked.transform.position - mis2.transform.position);
+					velo.y +=5.0f;
+					mis2.rigidbody.velocity = velo * 3.0f;
+
+				}
 			}
-			if(Input.GetKeyDown(KeyCode.T)){
-				Vector3 left = GameObject.FindGameObjectWithTag("leftMissle").transform.position;
-				Vector3 right = GameObject.FindGameObjectWithTag("rightMissle").transform.position;
-
-				//Left
-				GameObject mis1 = Instantiate(missle,left,transform.rotation) as GameObject;
-				mis1.transform.position = left;
-				Vector3 velo = locked.transform.position - mis1.transform.position;
-				velo.y +=5.0f;
-				mis1.rigidbody.velocity = velo * 3.0f;
-
-				//Right
-				GameObject mis2 = Instantiate(missle,right,transform.rotation) as GameObject;
-				mis2.transform.position = right;
-				velo = (locked.transform.position - mis2.transform.position);
-				velo.y +=5.0f;
-				mis2.rigidbody.velocity = velo * 3.0f;
-
+			if(invinsibility > 0.0f){
+				invinsibility -= Time.deltaTime;
 			}
-		}
-		if(invinsibility > 0.0f){
-			invinsibility -= Time.deltaTime;
-		}
 
-		ScatterShotCheck();
+			ScatterShotCheck();
+		}
 	}
 
 	void ScatterShotCheck(){
@@ -195,11 +197,13 @@ public class Player : MonoBehaviour {
 		if(invinsibility <= 0.0f){
 			if(obj.tag == "balloon" ){
 				Destroy (obj);
+				ClusterController.BalloonPoped(obj);
 				GameController.UpdateScore(1);
 				//Die ();
 			}
 			if(obj.tag == "enemy"){
 				Destroy (obj);
+				ClusterController.KillEnemy();
 				GameController.UpdateScore(10);
 				//Die ();
 			}
