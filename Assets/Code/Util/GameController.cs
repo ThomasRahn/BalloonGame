@@ -42,13 +42,8 @@ public class GameController : MonoBehaviour {
 
 	public static void WinGame(){
 		GameObject.FindGameObjectWithTag ("status").guiText.text = "You have Won the game";
-		GameObject obj = GameObject.FindGameObjectWithTag ("tower");
-		obj.transform.position = Camera.main.transform.position + (Camera.main.transform.forward * 20.0f);
-		GameObject[] towerPieces = GameObject.FindGameObjectsWithTag ("towerPiece");
-		Debug.Log (towerPieces.Length);
-		foreach(GameObject o in towerPieces){
-			o.renderer.enabled = true;
-		}
+		GameObject fireworks = GameObject.FindGameObjectWithTag ("winner");
+		fireworks.particleSystem.Play ();
 		gameOver = true;
 	}
 

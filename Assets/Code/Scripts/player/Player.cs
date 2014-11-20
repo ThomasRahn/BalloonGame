@@ -73,37 +73,9 @@ public class Player : MonoBehaviour {
 				invinsibility -= Time.deltaTime;
 			}
 
-			ScatterShotCheck();
 		}
 	}
 
-	void ScatterShotCheck(){
-		if(Input.GetKey(KeyCode.X) && !hasScatterShot){
-			scatterShotTime -= Time.deltaTime;
-
-			if(scatterShotTime <= 0.0f){
-		//		ScatterShot();
-			}
-		}else{
-			if(scatterShotTime < 2.0f){
-				scatterShotTime = 2.0f;
-			}
-		}
-	}
-
-	void ScatterShot(){
-		hasScatterShot = true;
-		List<GameObject> balloons = ClusterController.GetAllVisibleBalloons ();
-
-		foreach(GameObject balloon in balloons){
-			GameObject shoot = Instantiate(bullet) as GameObject;
-			shoot.transform.position =Camera.main.transform.position;
-			shoot.AddComponent<Scatter>();
-			shoot.GetComponent<Scatter>().SetTarget(balloon);
-			shoot.transform.rotation = transform.rotation;
-			shoot.transform.Rotate(new Vector3(0,90,0));
-		}
-	}
 
 
 	IEnumerator HideText(){
@@ -168,8 +140,8 @@ public class Player : MonoBehaviour {
 	void Shooting(){
 		if(Input.GetButtonDown("Fire1")){
 			GameObject shoot = Instantiate(bullet) as GameObject;
-			shoot.transform.position =Camera.main.transform.position;
-			shoot.rigidbody.velocity = transform.rigidbody.velocity + (transform.forward * 20.0f);
+			shoot.transform.position = GameObject.FindGameObjectWithTag("gunTip").transform.position;
+			shoot.rigidbody.velocity = this.transform.forward * 60.0f;
 			shoot.transform.rotation = transform.rotation;
 			shoot.transform.Rotate(new Vector3(0,90,0));
 			Destroy(shoot,2.5f);

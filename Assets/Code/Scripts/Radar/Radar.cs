@@ -1,0 +1,48 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class Radar : MonoBehaviour {
+	public static List<GameObject> balloons;
+	public static GameObject playerItem;
+	// Use this for initialization
+	void Start () {
+		balloons = new List<GameObject> ();
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		if(playerItem == null){
+			playerItem = Instantiate(Resources.Load ("Prefabs/RadarItem/PlayerItem")) as GameObject;
+			playerItem.transform.parent = GameObject.FindGameObjectWithTag ("radar").transform;
+			playerItem.transform.position = new Vector3(0,0,0);
+		}
+		playerItem.transform.localPosition = Vector3.Scale(GameObject.FindGameObjectWithTag ("Player").transform.position, new Vector3(0.01f,0.01f,0.01f));	
+		if (balloons != null && balloons.Count > 0) {
+			List<GameObject> clusters = ClusterController.GetAllBalloons();
+			for(int i = 0; i < clusters.Count; i++){
+				balloons[i].transform.localPosition = Vector3.Scale(clusters[i].transform.position,new Vector3(0.01f,0.01f,0.01f));	
+			}
+		}
+
+
+	}
+
+	public static void CreateRadar(List<GameObject> balls){
+		foreach(GameObject balloon in balls){
+			Object obj = Resources.Load("Prefabs/RadarItem/RadarItem");
+			GameObject item = Instantiate(obj, new Vector3(0,0,0), Quaternion.identity) as GameObject;
+			item.transform.parent = GameObject.FindGameObjectWithTag("radar").transform;
+			item.transform.localPosition = Vector3.Scale(balloon.transform.position,new Vector3(0.01f,0.01f,0.01f));	
+			balloons.Add (item);
+		}
+
+	}
+
+	public static void killBalloon(){
+		if(balloons.Count > 0){
+			Destroy (balloons[0]);
+			balloons.RemoveAt(0);
+		}
+	}
+}

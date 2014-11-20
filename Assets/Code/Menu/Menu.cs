@@ -17,7 +17,6 @@ public class Menu : MonoBehaviour {
 	}
 
 	void OnGUI (){
-		Debug.Log ("Ho");
 		if (GUI.Button (new Rect (Screen.width/2,Screen.height/2 - 55,80,20), "Play")) {
 			if(numberOfBalloons >= 0){
 				PlayerPrefs.SetInt("Balloons", numberOfBalloons);

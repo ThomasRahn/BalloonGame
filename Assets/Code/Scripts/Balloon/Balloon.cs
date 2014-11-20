@@ -26,11 +26,11 @@ public class Balloon : MonoBehaviour {
 			GameController.UpdateScore(1);
 			if(lives == 2){
 				this.gameObject.renderer.material.color = Color.yellow;
-				this.transform.localScale = new Vector3(25,25,25);
+				this.transform.localScale = new Vector3(35,35,35);
 			}else{
 				this.gameObject.renderer.material.color = Color.red;
 				this.transform.rigidbody.AddForce(new Vector3(0,4,0) * 100.0f);
-				this.transform.localScale = new Vector3(15,15,15);
+				this.transform.localScale = new Vector3(25,25,25);
 			}
 		}
 	}

@@ -67,10 +67,12 @@ public class ClusterController : MonoBehaviour {
 			totalNumberOfBalloons++;
 			balloons.Add(bal);
 		}
+		Radar.CreateRadar (balloons);
 	}
 
 	public static void BalloonPoped(GameObject obj){
 		balloons.Remove (obj);
+		Radar.killBalloon ();
 		numberOfBalloons--;
 	}
 
@@ -80,14 +82,8 @@ public class ClusterController : MonoBehaviour {
 	}
 
 
-	public static List<GameObject> GetAllVisibleBalloons(){
-		List<GameObject> visibleBalloons = new List<GameObject> ();
-		foreach(GameObject obj in balloons){
-			if(obj.renderer.isVisible){
-				visibleBalloons.Add(obj);
-			}
-		}
-		return visibleBalloons;
+	public static List<GameObject> GetAllBalloons(){
+		return balloons;
 	}
 	public static void KillEnemy(){
 		numberOfEnemies--;
