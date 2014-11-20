@@ -42,6 +42,8 @@ public class Player : MonoBehaviour {
 			Movement ();
 			Shooting ();
 
+			Zoom();
+
 			LockOn ();
 			if(locked != null){
 				GameObject text = GameObject.FindGameObjectWithTag("locked");
@@ -107,6 +109,13 @@ public class Player : MonoBehaviour {
 			}else{
 				lockonTime = 2.0f;
 			}
+		}
+	}
+	void Zoom(){
+		if(Input.GetKey(KeyCode.Mouse1)){
+			Camera.main.fieldOfView = 40;
+		}else{
+			Camera.main.fieldOfView = 60;
 		}
 	}
 
