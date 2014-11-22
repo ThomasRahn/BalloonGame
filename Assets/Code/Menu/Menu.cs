@@ -9,6 +9,7 @@ public class Menu : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		numberOfBalloons = 0;
+		Screen.lockCursor = false;
 	}
 	
 	// Update is called once per frame

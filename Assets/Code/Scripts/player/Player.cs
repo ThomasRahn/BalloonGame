@@ -26,8 +26,6 @@ public class Player : MonoBehaviour {
 	public GameObject missle;
 	private GameObject text;
 
-	private float scatterShotTime = 2.0f;
-	private bool hasScatterShot = false;
 
 	void Start () {
 		originalRotation = this.transform.rotation;
@@ -38,7 +36,7 @@ public class Player : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		if(!GameController.gameOver){
+		if(!GameController.gameOver && ! GameController.dead){
 			Movement ();
 			Shooting ();
 
@@ -158,6 +156,7 @@ public class Player : MonoBehaviour {
 	}
 
 	public void Die(){
+		invinsibility = 5.0f;
 		GameController.Die ();
 		Destroy (this.GetComponent<Wrap> ());
 		this.rigidbody.useGravity = true;
@@ -166,28 +165,34 @@ public class Player : MonoBehaviour {
 
 	//spawn the player back at 0,0,0
 	IEnumerator Spawn(){
-		yield return new WaitForSeconds (5);
+		yield return new WaitForSeconds (4);
 		this.transform.position = new Vector3 (0, 0, 0);
 		this.rigidbody.useGravity = false;
 		this.gameObject.AddComponent<Wrap> ();
 	}
 
 	//If the player collides with balloon or enemy, die and pop the object.
-	void OnTriggerEnter(Collider col){
+	void OnCollisionEnter(Collision col){
 		GameObject obj = col.gameObject;
-		if(invinsibility <= 0.0f){
-			if(obj.tag == "balloon" ){
+		if(invinsibility <= 0.0f ){
+			if(obj.CompareTag("balloon")){
 				Destroy (obj);
 				ClusterController.BalloonPoped(obj);
 				GameController.UpdateScore(1);
-				//Die ();
+				Die ();
 			}
-			if(obj.tag == "enemy"){
+			if(obj.CompareTag("enemy")){
 				Destroy (obj);
 				ClusterController.KillEnemy();
 				GameController.UpdateScore(10);
-				//Die ();
+				Die ();
 			}
+			Debug.Log(obj.tag);
+			if(obj.CompareTag("enemyBullet")){
+				Destroy (obj);
+				Die ();
+			}
+
 		}
 	}
 }

@@ -8,16 +8,20 @@ public class ClusterController : MonoBehaviour {
 	public static int totalNumberOfBalloons;
 	public static int numberOfBalloons;
 	public static int numberOfEnemies;
-	private static bool thirty = false;
-	private static bool sixty = false;
-	private static bool ninety = false;
-	private static bool speedBoost = false;
+	private static bool thirty;
+	private static bool sixty;
+	private static bool ninety;
+	private static bool speedBoost;
 
 	public string status;
 	// Use this for initialization
 	void Start () {
 		numberOfBalloons = 0;
 		numberOfEnemies = 3;
+		thirty = false;
+		sixty = false;
+		ninety = false;
+		speedBoost = false;
 	}
 	
 	// Update is called once per frame
@@ -41,7 +45,7 @@ public class ClusterController : MonoBehaviour {
 			increaseSpeed();
 		}
 		status = numberOfBalloons + " " + !GameController.gameOver + numberOfEnemies;
-		if(numberOfBalloons == 0 && !GameController.gameOver && numberOfEnemies == 0){
+		if(numberOfBalloons <= 0 && !GameController.gameOver && numberOfEnemies <= 0){
 			GameController.WinGame();
 		}
 	}
@@ -79,6 +83,7 @@ public class ClusterController : MonoBehaviour {
 	private static void spawnEnemy(){
 		Object obj = Resources.Load ("Prefabs/EnemyModel");
 		GameObject enemy = Instantiate(obj, new Vector3(-5,5,-5), Quaternion.identity) as GameObject;
+		Radar.AddEnemy (enemy);
 	}
 
 
@@ -86,6 +91,7 @@ public class ClusterController : MonoBehaviour {
 		return balloons;
 	}
 	public static void KillEnemy(){
+		Radar.RemoveEnemy ();
 		numberOfEnemies--;
 	}
 }

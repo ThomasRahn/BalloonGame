@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour {
 	private void Shoot(){
 		GameObject shoot = Instantiate (Resources.Load("Prefabs/EnemyBalloon")) as GameObject;
 		shoot.transform.position = this.transform.position;
-		shoot.rigidbody.velocity = (player.transform.position - shoot.transform.position);
+		shoot.rigidbody.velocity = (player.transform.position - this.transform.position);
 		Destroy (shoot, 1.5f);
 	}
 	void OnTriggerEnter(Collider col){
