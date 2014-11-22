@@ -73,6 +73,9 @@ public class Player : MonoBehaviour {
 				invinsibility -= Time.deltaTime;
 			}
 
+		}else{
+			if(GameController.gameOver)
+				this.transform.rotation = Quaternion.identity;
 		}
 	}
 
@@ -146,6 +149,7 @@ public class Player : MonoBehaviour {
 	//Shoot if button press
 	void Shooting(){
 		if(Input.GetButtonDown("Fire1")){
+			SoundManager.PlaySound(SoundManager.sound.Shoot);
 			GameObject shoot = Instantiate(bullet) as GameObject;
 			shoot.transform.position = GameObject.FindGameObjectWithTag("gunTip").transform.position;
 			shoot.rigidbody.velocity = this.transform.forward * 60.0f;
@@ -160,6 +164,7 @@ public class Player : MonoBehaviour {
 		GameController.Die ();
 		Destroy (this.GetComponent<Wrap> ());
 		this.rigidbody.useGravity = true;
+		SoundManager.PlaySound (SoundManager.sound.Die);
 		StartCoroutine (Spawn ());
 	}
 
@@ -174,7 +179,7 @@ public class Player : MonoBehaviour {
 	//If the player collides with balloon or enemy, die and pop the object.
 	void OnCollisionEnter(Collision col){
 		GameObject obj = col.gameObject;
-		if(invinsibility <= 0.0f ){
+		if(invinsibility <= 0.0f && ! GameController.gameOver){
 			if(obj.CompareTag("balloon")){
 				Destroy (obj);
 				ClusterController.BalloonPoped(obj);

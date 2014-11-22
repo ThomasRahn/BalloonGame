@@ -21,6 +21,7 @@ public class Balloon : MonoBehaviour {
 		if(lives == 0){
 			ClusterController.BalloonPoped(this.gameObject);
 			GameController.UpdateScore(2);
+			SoundManager.PlaySound(SoundManager.sound.BalloonPop);
 			Destroy(this.gameObject);
 		}else{
 			GameController.UpdateScore(1);

@@ -22,31 +22,33 @@ public class ClusterController : MonoBehaviour {
 		sixty = false;
 		ninety = false;
 		speedBoost = false;
+		totalNumberOfBalloons = 0;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-		float balLeft = numberOfBalloons / (totalNumberOfBalloons * 1.0f);
-		if (balLeft < 0.7f && !thirty) {
-			thirty = true;
-			spawnEnemy();
-		}
-		if (balLeft < 0.4f && !sixty) {
-			sixty = true;
-			spawnEnemy();
-		}
-		if (balLeft < 0.1f && !ninety) {
-			ninety = true;
-			spawnEnemy();
-		}
-		if(balLeft < 0.2f && !speedBoost){
-			speedBoost = true;
-			increaseSpeed();
-		}
-		status = numberOfBalloons + " " + !GameController.gameOver + numberOfEnemies;
-		if(numberOfBalloons <= 0 && !GameController.gameOver && numberOfEnemies <= 0){
-			GameController.WinGame();
+		if(totalNumberOfBalloons != 0){
+			float balLeft = numberOfBalloons / (totalNumberOfBalloons * 1.0f);
+			if (balLeft < 0.7f && !thirty) {
+				thirty = true;
+				spawnEnemy();
+			}
+			if (balLeft < 0.4f && !sixty) {
+				sixty = true;
+				spawnEnemy();
+			}
+			if (balLeft < 0.1f && !ninety) {
+				ninety = true;
+				spawnEnemy();
+			}
+			if(balLeft < 0.2f && !speedBoost){
+				speedBoost = true;
+				increaseSpeed();
+			}
+			status = numberOfBalloons + " " + !GameController.gameOver + numberOfEnemies;
+			if(numberOfBalloons <= 0 && !GameController.gameOver && numberOfEnemies <= 0){
+				GameController.WinGame();
+			}
 		}
 	}
 

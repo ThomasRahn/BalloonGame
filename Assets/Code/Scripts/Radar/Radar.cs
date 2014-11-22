@@ -24,6 +24,7 @@ public class Radar : MonoBehaviour {
 			List<GameObject> clusters = ClusterController.GetAllBalloons();
 			for(int i = 0; i < clusters.Count; i++){
 				balloons[i].transform.localPosition = Vector3.Scale(clusters[i].transform.position,new Vector3(0.01f,0.01f,0.01f));	
+				balloons[i].transform.rotation = clusters[i].transform.rotation;
 			}
 		}
 

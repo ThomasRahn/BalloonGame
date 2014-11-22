@@ -42,11 +42,13 @@ public class GameController : MonoBehaviour {
 	public static void Die(){
 		Fading.Fade = true;
 		lives--;
-		GameObject.FindGameObjectWithTag ("status").guiText.text = "You have died";
+
 		if(lives == 0){
 			gameOver = true;
+			GameObject.FindGameObjectWithTag ("status").guiText.text = "Game Over!";
 		}else{
 			dead = true;
+			GameObject.FindGameObjectWithTag ("status").guiText.text = "You have died";
 		}
 	}
 

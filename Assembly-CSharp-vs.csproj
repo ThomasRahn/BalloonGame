@@ -57,6 +57,7 @@
      <Compile Include="Assets\Code\Util\ClusterController.cs" />
      <Compile Include="Assets\Code\Util\Fading.cs" />
      <Compile Include="Assets\Code\Util\GameController.cs" />
+     <Compile Include="Assets\Code\Util\SoundManager.cs" />
      <Compile Include="Assets\Code\Util\Wrap.cs" />
      <None Include="Assets\Resources\Skyboxes\_skybox info.txt" />
   </ItemGroup>
